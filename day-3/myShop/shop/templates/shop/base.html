@@ -8,7 +8,17 @@
   </head>
   <body>
     <div id="header">
-      <a href="/" class="logo">Мой интернет-магазин shop</a>
+      <a href="/" class="logo">Мой магазин</a>
+        <div class="user-auth">
+            {% if request.user.is_authenticated %}
+                Привет, {{ request.user.username }}!
+                <a href="{% url 'shop:logout' %}">Выйти</a>
+            {% else %}
+                <a href="{% url 'shop:login' %}">Войти</a>
+                <span class="auth-separator">|</span>
+                <a href="{% url 'shop:register' %}">Регистрация</a>
+            {% endif %}
+        </div>
     </div>
     <div id="subheader">
 
@@ -26,20 +36,7 @@
         {% endif %}
         {% endwith %}
         
-        <div class="user-status">
-          {% if request.user.is_authenticated %}
-    <div class="user-menu">
-        <span>Привет, {{ request.user.username }}!</span>
-        <form action="{% url 'shop:logout' %}" method="post" class="logout-form">
-            {% csrf_token %}
-            <button type="submit">Выйти</button>
-        </form>
-    </div>
-{% else %}
-    <a href="{% url 'shop:login' %}">Войти</a>
-{% endif %}
-
-      </div>
+       
 
       </div>
 

@@ -70,18 +70,35 @@ def user_logout(request):
 
 
 
+from django.contrib.auth import login
+from django.contrib import messages
+from django.shortcuts import redirect
+from .forms import UserRegistrationForm
+
 def register(request):
+    if request.user.is_authenticated:
+        messages.info(request, 'Вы уже зарегистрированы.')
+        return redirect('shop:product_list')
+        
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
+            # Создаем нового пользователя, но пока не сохраняем
             new_user = user_form.save(commit=False)
+            # Устанавливаем пароль
             new_user.set_password(user_form.cleaned_data['password'])
+            # Сохраняем пользователя
             new_user.save()
-            return render(request,
-                        'shop/register_done.html',
-                        {'new_user': new_user})
+            # Автоматически входим в систему
+            login(request, new_user)
+            messages.success(request, 'Регистрация успешно завершена!')
+            return redirect('shop:product_list')
+        else:
+            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
     else:
         user_form = UserRegistrationForm()
+    
     return render(request,
                  'shop/register.html',
                  {'user_form': user_form})
+
