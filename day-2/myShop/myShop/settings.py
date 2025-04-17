@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
-    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
@@ -64,7 +63,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'cart.context_processors.cart',
             ],
         },
     },
@@ -124,22 +122,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# MEDIA_URL = 'media/'
-# MEDIA_ROOT = BASE_DIR / 'media'
-
-
-CART_SESSION_ID = 'cart'
-
-
-LOGIN_REDIRECT_URL = 'shop:product_list'
-LOGIN_URL = 'shop:login'
-LOGOUT_URL = 'shop:logout'
-
-
-# URL для перенаправления после выхода
-LOGOUT_REDIRECT_URL = 'shop:product_list'  # или другой URL
-
-# Очищать ли сессию при выходе
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
